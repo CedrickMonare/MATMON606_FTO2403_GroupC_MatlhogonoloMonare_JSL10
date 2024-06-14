@@ -25,23 +25,26 @@ document.getElementById("solveRoom2").addEventListener("click", () => {
     ).join(", ")}`;
   });
 
-    // 🪲 Bug: Asynchronous function ?
-    document.getElementById("solveRoom3").addEventListener("click", () => {
-        fetch('directions.json') 
-            .then(response => response.json())
-            .then(directions => {
-                navigateLabyrinth(directions)
-                    .then(message => {
-                        // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").innerHTML = message;
-                    });
-            });
-    });
+ // 🪲 Bug: Asynchronous function ?
+  document.getElementById("solveRoom3").addEventListener("click", async () => {
+    fetch("directions.json")
+      .then((response) => response.json())
+      .then((directions) => {
+        navigateLabyrinth(directions).then((message) => {
+          // 🪲 Bug: Incorrect method
+          document.getElementById("room3Result").textContent = message;
+        });
+      });
+  });
 });
 
 function findMostRecentBook(books) {
-    // 🪲 Bug: Logic error
-    return books.reduce((mostRecent, book) => new Date(book.published) < new Date(mostRecent.published) ? book : mostRecent);
+  // 🪲 Bug: Logic error
+  return books.reduce((mostRecent, book) =>
+    new Date(book.published) > new Date(mostRecent.published)
+      ? book
+      : mostRecent
+  );
 }
 
 function findIntersection(setA, setB) {
